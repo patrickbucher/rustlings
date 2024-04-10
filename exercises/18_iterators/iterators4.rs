@@ -3,9 +3,33 @@
 // Execute `rustlings hint iterators4` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+struct Factorial {
+    i: u64,
+    cache: Vec<u64>,
+}
+
+impl Factorial {
+    fn new() -> Factorial {
+        Factorial {
+            i: 0,
+            cache: Vec::new(),
+        }
+    }
+}
+
+impl Iterator for Factorial {
+    type Item = u64;
+
+    fn next(&mut self) -> Option<u64> {
+        let result = Some(self.cache.iter().fold(1, |acc, i| acc * i));
+        self.i += 1;
+        self.cache.push(self.i);
+        result
+    }
+}
 
 pub fn factorial(num: u64) -> u64 {
+    Factorial::new().nth(num as usize).unwrap()
     // Complete this function to return the factorial of num
     // Do not use:
     // - early returns (using the `return` keyword explicitly)
