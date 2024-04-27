@@ -41,10 +41,24 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of
 // Person Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
-
 impl From<&str> for Person {
-    fn from(s: &str) -> Person {}
+    fn from(s: &str) -> Person {
+        if s.len() == 0 {
+            return Person::default();
+        }
+        let name = String::from_iter(s.chars().take_while(|c| *c != ','));
+        if name.len() < 1 {
+            return Person::default();
+        }
+        let right: Vec<char> = s.chars()
+            .skip_while(|c| *c != ',')
+            .skip(1)
+            .collect();
+        match String::from_iter(right).parse() {
+            Ok(age) => Person{name,age},
+            Err(_) => Person::default(),
+        }
+    }
 }
 
 fn main() {
